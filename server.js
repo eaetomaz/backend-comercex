@@ -1,9 +1,14 @@
 const express = require('express');
 const sequelize = require('./src/config/database');
 const estoqueRoutes = require('./src/routes/estoqueRoutes');
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+
+app.use(cors({
+  origin: "http://localhost:5173"
+}));
 
 app.use('/api/estoque', estoqueRoutes);
 
@@ -25,7 +30,7 @@ app.use('/api/estoque', estoqueRoutes);
 
     await sequelize.sync(); // opcional: cria tabelas se não existirem
 
-    const PORT = process.env.PORT || 3001;
+    const PORT = 3001;
     app.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
   } catch (error) {
     console.error('❌ Erro ao conectar ao banco:', error);
